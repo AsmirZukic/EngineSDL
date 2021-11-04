@@ -2,10 +2,10 @@ CC=g++
 CFLAGS= -c -Wall
 SDL2= -w -lSDL2
 
-all: Engine
+all: ParticleExplosion
 
-Engine: main.o engine.o renderer.o window.o
-	$(CC) main.o engine.o renderer.o window.o $(SDL2) -o Engine
+ParticleExplosion: main.o engine.o renderer.o window.o inputHandler.o
+	$(CC) main.o engine.o renderer.o window.o inputHandler.o $(SDL2) -o Engine
 
 main.o: src/main.cpp
 	$(CC) $(CFLAGS) -c src/main.cpp
@@ -19,5 +19,9 @@ renderer.o: src/renderer.cpp
 window.o: src/window.cpp
 	$(CC) $(CFLAGS) src/window.cpp
 
+inputHandler.o: src/inputHandler.cpp
+	$(CC) $(CFLAGS) src/inputHandler.cpp
+
+
 clean:
-	rm *.o
+	rm *.o Engine
