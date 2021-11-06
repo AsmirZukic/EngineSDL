@@ -6,6 +6,9 @@ class Window
 {
 private:
 
+  static int SCREEN_WIDTH;
+  static int SCREEN_HEIGHT;
+
   SDL_Window* mWindow = nullptr;
 
   static Window* iWindow;
@@ -26,4 +29,7 @@ public:
   SDL_Window* getWindow() { return mWindow; }
 
   static Window* getInstance();
+
+  const int getWindowWidth();
+  const int getWindowHeigt();
 };

@@ -4,13 +4,11 @@
 
 Renderer* Renderer::iRenderer = nullptr;
 
-Renderer::Renderer()=default;
-
-Renderer::Renderer( Window* window )
+Renderer::Renderer()
 {
   try
   {
-    mRenderer = SDL_CreateRenderer( window->getWindow() , -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+    mRenderer = SDL_CreateRenderer( Window::getInstance()->getWindow() , -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 
     if( !mRenderer )
     {
@@ -46,7 +44,7 @@ Renderer* Renderer::getInstance()
   //If the instance is equal to nullptr
   if( !iRenderer )
     //Create a new instance of the renderer
-    iRenderer = new Renderer( Window::getInstance() );
+    iRenderer = new Renderer;
 
   //Else return the renderer instance
   return iRenderer;

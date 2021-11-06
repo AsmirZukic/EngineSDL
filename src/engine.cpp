@@ -7,14 +7,14 @@ Engine::Engine()
   try
   {
     //If the window is equal to nullptr
-    if( !( window->getWindow() ) )
+    if( !( Window::getInstance()->getWindow() ) )
     {
       throw "Could not create window";
     }
     else
     {
       //If the renderer is equal to nullptr
-      if( !( renderer->getRenderer() ) )
+      if( !( Renderer::getInstance()->getRenderer() ) )
         throw "Could not create Renderer";
 
       //Else the engine is running
@@ -25,42 +25,33 @@ Engine::Engine()
     std::cerr << msg << '\n';
     running = false;
   }
+
+  Timer::getInstance()->start();
+  render();
 }
 
 Engine::~Engine()
 {
   running = false;
 
-  window->close();
-  renderer->close();
+  Window::getInstance()->close();
+  Renderer::getInstance()->close();
 }
 
-void Engine::handleInput()
-{
-  SDL_Event event;
-
-  while( SDL_PollEvent( &event ) != 0 )
-  {
-    if( event.type == SDL_QUIT )
-    {
-      window->close();
-    }
-  }
-}
 
 void Engine::render()
 {
-  SDL_SetRenderDrawColor( renderer->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
+  SDL_SetRenderDrawColor( Renderer::getInstance()->getRenderer(), 0x00, 0x00, 0x00, 0xFF );
 
-  SDL_RenderClear( renderer->getRenderer() );
+  SDL_RenderClear( Renderer::getInstance()->getRenderer() );
 }
 
 const bool Engine::isRunning()
 {
-  return window->isOpen() && renderer->isCreated() && running;
+  return Window::getInstance()->isOpen() && Renderer::getInstance()->isCreated() && running;
 }
 
 void Engine::draw()
 {
-  SDL_RenderPresent( renderer->getRenderer() );
+  SDL_RenderPresent( Renderer::getInstance()->getRenderer() );
 }

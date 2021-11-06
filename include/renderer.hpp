@@ -10,9 +10,8 @@ private:
   static Renderer* iRenderer;
 
   Renderer();
-  Renderer( Window* window );
   Renderer( const Renderer& );
-  
+
 public:
 
   ~Renderer();
