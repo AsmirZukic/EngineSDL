@@ -1,21 +1,25 @@
 #pragma once
 #include "renderer.hpp"
-#include "timer.hpp"
+#include "inputHandler.hpp"
 
 class Engine
 {
 private:
   bool running = false;
 
-public:
+  static Engine* iEngine;
+
   Engine();
+  Engine( const Engine& e2 );
 
   ~Engine();
+
+public:
+  static Engine* getInstance();
 
   virtual void render();
 
   const bool isRunning();
 
   void draw();
-
 };

@@ -3,8 +3,6 @@
 #include <stdexcept>
 
 Window* Window::iWindow = nullptr;
-int Window::SCREEN_WIDTH = 1280;
-int Window::SCREEN_HEIGHT = 750;
 
 Window::Window() = default;
 
@@ -18,7 +16,7 @@ Window::Window( int SCREEN_WIDTH, int SCREEN_HEIGHT )
     }
     else
     {
-      mWindow = SDL_CreateWindow( "SDL Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+      mWindow = SDL_CreateWindow( "SDL Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE );
 
       //If the created window is equal to nullptr
       if( !mWindow )
@@ -51,19 +49,8 @@ Window* Window::getInstance()
     if( !iWindow )
     {
       //Create a new instance of window
-      iWindow = new Window( SCREEN_WIDTH, SCREEN_HEIGHT );
+      iWindow = new Window( 1280, 720 );
     }
     //Else just return the singleton instance
     return iWindow;
-}
-
-
-const int Window::getWindowWidth()
-{
-  return SCREEN_WIDTH;
-}
-
-const int Window::getWindowHeigt()
-{
-  return SCREEN_HEIGHT;
 }

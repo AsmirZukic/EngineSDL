@@ -1,11 +1,12 @@
 CC=g++
 CFLAGS= -c -Wall
 SDL2= -w -lSDL2
+DEBUG = -ggdb
 
 all: Engine
 
-Engine: main.o engine.o renderer.o window.o inputHandler.o timer.o
-	$(CC) main.o engine.o renderer.o window.o inputHandler.o timer.o $(SDL2) -o Engine
+Engine: main.o engine.o renderer.o window.o inputHandler.o timer.o circle.o
+	$(CC) $(DEBUG) main.o engine.o renderer.o window.o inputHandler.o timer.o circle.o $(SDL2) -o Engine
 
 main.o: src/main.cpp
 	$(CC) $(CFLAGS) -c src/main.cpp
@@ -24,6 +25,9 @@ inputHandler.o: src/inputHandler.cpp
 
 timer.o: src/timer.cpp
 	$(CC) $(CFLAGS) src/timer.cpp
+
+circle.o: src/circle.cpp
+	$(CC) $(CFLAGS) src/circle.cpp
 
 clean:
 	rm *.o Engine

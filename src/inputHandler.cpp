@@ -1,50 +1,121 @@
 #include "../include/inputHandler.hpp"
-#include <iostream>
+#include "../include/engine.h"
 
-InputHandler::InputHandler()
+InputHandler* InputHandler::iHandler = nullptr;
+
+InputHandler::InputHandler() : mousePos( new Vector2D(0, 0) ) {}
+
+void InputHandler::update()
 {
-  GetFrameEvents();
+	SDL_Event event;
+
+	while ( SDL_PollEvent( &event ) )
+	{
+		switch ( event.type )
+		{
+		case SDL_QUIT:
+			Window::getInstance()->close();
+			break;
+
+		case SDL_KEYDOWN:
+			onKeyDown( &event );
+			break;
+
+		case SDL_KEYUP:
+			onKeyUp( &event );
+			break;
+
+		case SDL_MOUSEMOTION:
+			onMouseMove( event );
+			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+				onMouseButtonDown( event );
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			onMouseButtonUp( event );
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
-std::vector<SDL_Event>& InputHandler::GetFrameEvents()
+void InputHandler::onMouseButtonDown( SDL_Event& e )
 {
-  static std::vector<SDL_Event> frame_events;
-  return frame_events;
+
+	if ( e.button.button == SDL_BUTTON_LEFT )
+	{
+		mouseButtonStates[LEFT] = true;
+	}
+  else if ( e.button.button == SDL_BUTTON_MIDDLE )
+	{
+		mouseButtonStates[MIDDLE] = true;
+	}
+  else if ( e.button.button == SDL_BUTTON_RIGHT )
+	{
+		mouseButtonStates[RIGHT] = true;
+	}
 }
 
-void InputHandler::handleInput()
+void InputHandler::onMouseButtonUp( SDL_Event& e )
 {
-  SDL_Event event;
-
-  while( SDL_PollEvent( &event ) != 0 )
-  {
-    GetFrameEvents().push_back(event);
-  }
-
-  for( auto &it : GetFrameEvents() )
-  {
-    switch( it.type )
-    {
-      case SDL_QUIT:
-        Window::getInstance()->close();
-        break;
-
-      case SDL_MOUSEBUTTONDOWN:
-        std::cout<< "Mouse button was pressed\n";
-        mousePressed = true;
-        break;
-
-      case SDL_MOUSEBUTTONUP:
-      std::cout<< "Mouse button was released\n";
-        mousePressed = false;
-        break;
-    }
-  }
-
-  GetFrameEvents().clear();
+	if ( e.button.button == SDL_BUTTON_LEFT )
+	{
+		mouseButtonStates[LEFT] = false;
+	}
+  else if ( e.button.button == SDL_BUTTON_MIDDLE )
+	{
+		mouseButtonStates[MIDDLE] = false;
+	}
+  else if ( e.button.button == SDL_BUTTON_RIGHT )
+	{
+		mouseButtonStates[RIGHT] = false;
+	}
 }
 
-bool InputHandler::isMousePressed()
+void InputHandler::onMouseMove( SDL_Event& e )
 {
-  return mousePressed;
+	mousePos->setX( e.motion.x );
+	mousePos->setY( e.motion.y );
+}
+
+void InputHandler::reset()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		mouseButtonStates[i] = false;
+	}
+}
+
+void InputHandler::onKeyDown( SDL_Event* event )
+{
+
+}
+
+void InputHandler::onKeyUp(SDL_Event* event)
+{
+
+}
+
+bool InputHandler::isKeyDown( SDL_Scancode key )
+{
+	if ( keystates != 0 )
+	{
+		if ( keystates[key] == 1 )
+			return true;
+		else
+			return false;
+	}
+	return false;
+}
+
+InputHandler* InputHandler::getInstance()
+{
+  if ( !iHandler )
+    iHandler = new InputHandler();
+
+  return iHandler;
 }

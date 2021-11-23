@@ -10,12 +10,10 @@ private:
   bool paused;
   bool started;
 
-  static Timer* iTimer;
-
-  Timer();
-  Timer( const Timer& );
-
 public:
+  Timer();
+  Timer( const Timer& t2 );
+
   void start();
   void stop();
   void pause();
@@ -26,5 +24,4 @@ public:
   bool isStarted();
   bool isPaused();
 
-  static Timer* getInstance();
 };

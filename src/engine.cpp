@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 
+Engine* Engine::iEngine = nullptr;
+
 Engine::Engine()
 {
   try
@@ -26,7 +28,6 @@ Engine::Engine()
     running = false;
   }
 
-  Timer::getInstance()->start();
   render();
 }
 
@@ -48,10 +49,19 @@ void Engine::render()
 
 const bool Engine::isRunning()
 {
+  InputHandler::getInstance()->update();
   return Window::getInstance()->isOpen() && Renderer::getInstance()->isCreated() && running;
 }
 
 void Engine::draw()
 {
   SDL_RenderPresent( Renderer::getInstance()->getRenderer() );
+}
+
+Engine* Engine::getInstance()
+{
+  if( !iEngine )
+    iEngine = new Engine();
+
+  return iEngine;
 }

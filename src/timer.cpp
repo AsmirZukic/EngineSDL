@@ -1,8 +1,6 @@
 #include "../include/timer.hpp"
 #include <SDL2/SDL.h>
 
-Timer* Timer::iTimer = nullptr;
-
 Timer::Timer()
 {
   startTicks = 0;
@@ -10,6 +8,15 @@ Timer::Timer()
 
   paused = false;
   started = false;
+}
+
+Timer::Timer( const Timer& t2 )
+{
+  startTicks = t2.startTicks;
+  pausedTicks = t2.pausedTicks;
+
+  paused = t2.paused;
+  started = t2.started;
 }
 
 void Timer::start()
@@ -86,12 +93,4 @@ bool Timer::isStarted()
 bool Timer::isPaused()
 {
   return paused;
-}
-
-Timer* Timer::getInstance()
-{
-  if( !iTimer )
-    iTimer = new Timer;
-
-  return iTimer;
 }
