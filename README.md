@@ -1,7 +1,15 @@
 # EngineSDL
+A graphics engine aiming to streamline the creation of SDL2 applications. Future plans include expanding it to be a bit more general purpose but currently only serves as a backend to my personal project.
 
-A simple graphics engine made using SDL2. Currently has the ability to create a window and renderer with timer and input handling. I also added simple shape rendering using texures so you can make circles.
+## Features
+Creates a window and renderer and provides input handling as well as the ability to render a circle.
 
-Deffinitely not general purpose but it will do the job for basic tasks like rendering the mandelbrot set.
+## Compilation 
 
-On Linux you should be able to just do make all and it should compile if you have the SDL2 library installed. On windows it would require to change "SDL2/SDL.H" for "SDL.h" and probably some changes to the make file
+### Linux
+Make sure you have the SDL2 library installed, insturctions on that will veary depending on your system. 
+cd into the project folder and run ```make all```. It will create a executable called Engine which you can just run.
+
+### Windows
+Has not been tested on windows. Make sure you have the SDL2 library installed. Change include statements from ```#include <SDL2/SDL.h>``` to ``` #Include<SDL.h>```
+after that everything should compile correctly. 
