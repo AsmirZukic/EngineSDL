@@ -1,4 +1,5 @@
-#include "../include/engine.h"
+#include "../include/engine.hpp"
+#include "../include/texture.hpp"
 
 int main( int argc, char* argv[] )
 {

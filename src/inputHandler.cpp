@@ -1,5 +1,5 @@
 #include "../include/inputHandler.hpp"
-#include "../include/engine.h"
+#include "../include/engine.hpp"
 
 InputHandler* InputHandler::iHandler = nullptr;
 

@@ -1,33 +1,44 @@
+#The name of the binary we will be creating 
+BINARY=bin 
+#directories with all our source (.cpp) files 
+CODEDIR=. src
+#Directories with all our header (.hpp) files 
+INCDIR=. /include/
+
+#Compiler. Define as gcc for C and g++ for C++
 CC=g++
-CFLAGS= -c -Wall
-SDL2= -w -lSDL2
-DEBUG = -ggdb
 
-all: Engine
+#Optimization flag
+# -O0 no optimization, faster compile time, great for debugging builds
+OPT=-O0
 
-Engine: main.o engine.o renderer.o window.o inputHandler.o timer.o circle.o
-	$(CC) $(DEBUG) main.o engine.o renderer.o window.o inputHandler.o timer.o circle.o $(SDL2) -o Engine
+#Generate files that encode make rules for .hpp dependencies 
+DEPFLAGS=-MP -MD
 
-main.o: src/main.cpp
-	$(CC) $(CFLAGS) -c src/main.cpp
+#Compiler flags
+# -Wall used to turn on most warnings
+# -c compiles sources to object files 
+# For each loop used to add -I onto each include directory
+CFLAGS=-c -Wall $( foreach D, $(INCDIR), -I$(D) ) $(OPT) $(DEPFLAGS)
 
-engine.o: src/engine.cpp
-	$(CC) $(CFLAGS) src/engine.cpp
+#SDL2 comipler flasgs 
+SDL2=-w -lSDL2 -lSDL2_image
 
-renderer.o: src/renderer.cpp
-	$(CC) $(CFLAGS) src/renderer.cpp
+#Regular expression to find all the source files inside the source directories
+SOURCE=$(foreach D, $(CODEDIR), $(wildcard $(D)/*.cpp) )
 
-window.o: src/window.cpp
-	$(CC) $(CFLAGS) src/window.cpp
+#Regular expression replacement 
+OBJECT= $(patsubst %.cpp, %.o, $(SOURCE) )
+DEPFILES= $(patsubst %.cpp, %.d, $(SOURCE) )
 
-inputHandler.o: src/inputHandler.cpp
-	$(CC) $(CFLAGS) src/inputHandler.cpp
 
-timer.o: src/timer.cpp
-	$(CC) $(CFLAGS) src/timer.cpp
+all: $(BINARY)
 
-circle.o: src/circle.cpp
-	$(CC) $(CFLAGS) src/circle.cpp
+$(BINARY): $(OBJECT)
+	$(CC) -o $@ $^ $(SDL2)
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm *.o Engine
+	rm -rf $(BINARY) $(OBJECT) $(DEPFILES)

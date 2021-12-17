@@ -1,4 +1,5 @@
 #include "../include/window.hpp"
+#include "../include/init.hpp"
 #include <iostream>
 #include <stdexcept>
 
@@ -10,7 +11,7 @@ Window::Window( int SCREEN_WIDTH, int SCREEN_HEIGHT )
 {
   try
   {
-    if( SDL_Init( SDL_INIT_VIDEO) < 0 )
+    if( !InitSDL() )
     {
       throw SDL_GetError();
     }
